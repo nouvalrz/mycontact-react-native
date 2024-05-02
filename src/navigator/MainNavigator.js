@@ -14,12 +14,12 @@ const MainNavigator = () => {
         <Stack.Screen
           name={'ContactList'}
           component={ContactListScreen}
-          options={{title: 'ContactList'}}
+          options={{ title: 'ContactList', headerTitleAlign: 'center', headerStyle: { backgroundColor: '#A98FDE' }, headerTintColor: 'white' }}
         />
         <Stack.Screen
           name={'AddContact'}
           component={AddContactScreen}
-          options={{title: 'AddContact'}}
+          options={{ title: 'AddContact' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

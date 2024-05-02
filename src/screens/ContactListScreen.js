@@ -6,45 +6,49 @@ import { CircularButton } from "../components/ButtonComponent";
 import realm from "../../store/realm";
 
 const ContactListScreen = (props) => {
-  const {navigation} = props;
-  const [data, setData] = useState([{id: 1}]);
+  const { navigation } = props;
+  const [data, setData] = useState([{ id: 1 }]);
 
-  const getData = () =>{
+  const getData = () => {
     const allData = realm.objects('Contact');
     setData(allData);
   }
 
-  const deleteData = (id) =>{
+  const deleteData = (id) => {
     const data = realm.objects('Contact').filtered(`id = ${id}`);
-    realm.write(()=>{
+    realm.write(() => {
       realm.delete(data);
     });
     getData();
   }
 
   useEffect(() => {
-    const contactListScreen = navigation.addListener('focus', ()=>{
+    const contactListScreen = navigation.addListener('focus', () => {
       getData();
     });
     return contactListScreen;
   }, []);
 
   return <View style={styles.mainContainer}>
-    <FlatList contentContainerStyle={styles.flatListContainer} data={data} keyExtractor={(item)=> item.id} renderItem={({item})=>{
-      return(
+    <FlatList contentContainerStyle={styles.flatListContainer} data={data} keyExtractor={(item) => item.id} renderItem={({ item }) => {
+      return (
         <View style={styles.cardContainer}>
           <View>
             <Text style={styles.nameText}>{item.name}</Text>
             <Text style={styles.phoneText}>{item.phoneNumber}</Text>
           </View>
-          <TouchableOpacity onPress={()=>deleteData(item.id)}>
-            <Icon name={'cross'} type={'entypo'}/>
+          <TouchableOpacity onPress={() => deleteData(item.id)}>
+            <Icon name={'cross'} type={'entypo'} />
           </TouchableOpacity>
         </View>
       )
-    }}/>
+    }} ListEmptyComponent={
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <Text style={{ textAlign: 'center' }}>List is empty</Text>
+      </View>
+    } />
     <View style={styles.buttonContainer}>
-      <CircularButton onPress={()=>navigation.navigate('AddContact')}/>
+      <CircularButton onPress={() => navigation.navigate('AddContact')} />
     </View>
   </View>;
 };
@@ -53,10 +57,11 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
-  flatListContainer:{
-    padding: 8
+  flatListContainer: {
+    padding: 8,
+    flexGrow: 1
   },
-  cardContainer:{
+  cardContainer: {
     margin: 8,
     padding: 16,
     backgroundColor: 'white',
@@ -65,16 +70,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between'
   },
-  nameText:{
+  nameText: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black'
   },
-  phoneText:{
+  phoneText: {
     fontSize: 18,
     color: 'black'
   },
-  buttonContainer:{
+  buttonContainer: {
     position: 'absolute',
     bottom: 16,
     right: 16
